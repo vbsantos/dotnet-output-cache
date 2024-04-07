@@ -14,20 +14,24 @@ This project demonstrates a minimal API in ASP.NET Core, focusing on delivering 
 To get the project up and running on your local machine, follow these steps:
 
 1. **Clone the repository**:
+
    ```sh
    git clone <repository-url>
    ```
 
 2. **Navigate to the project directory**:
+
    ```sh
    cd <project-directory>
    ```
 
 3. **Build and run the project**:
    - Using the dotnet CLI:
+
      ```sh
      dotnet run
      ```
+
    - Using Visual Studio:
      Open the solution file and run the project using IIS Express.
 
