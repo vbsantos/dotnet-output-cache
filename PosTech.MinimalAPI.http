@@ -1,0 +1,4 @@
+GET http://localhost:5135/API/Weather/WeatherForecast/
+Accept: application/json
+
+###
