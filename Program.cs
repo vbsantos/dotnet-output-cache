@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -39,26 +41,20 @@ weatherGroup
 
 app.Run();
 
-static async Task<IResult> ProcessWeatherForecast()
+static async Task<Results<Ok<WeatherForecast[]>, NotFound>> ProcessWeatherForecast()
 {
     var summaries = new[]
     {
-        "Freezing",
-        "Bracing",
-        "Chilly",
-        "Cool",
-        "Mild",
-        "Warm",
-        "Balmy",
-        "Hot",
-        "Sweltering",
-        "Scorching"
+        "Freezing", "Bracing", "Chilly",
+        "Cool", "Mild", "Warm", "Balmy",
+        "Hot", "Sweltering", "Scorching"
     };
 
     var forecast = await Task.Run(() =>
     {
-        return Enumerable.Range(1, 5).Select(index =>
-            new WeatherForecast
+        return Enumerable
+            .Range(1, 5)
+            .Select(index => new WeatherForecast
             (
                 DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 Random.Shared.Next(-20, 55),
@@ -67,7 +63,9 @@ static async Task<IResult> ProcessWeatherForecast()
             .ToArray();
     });
 
-    return TypedResults.Ok(forecast);
+    return forecast is null or { Length: 0 }
+        ? TypedResults.NotFound()
+        : TypedResults.Ok(forecast);
 }
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
